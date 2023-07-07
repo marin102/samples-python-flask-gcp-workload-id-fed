@@ -1,4 +1,8 @@
 import requests
+import random
+import string
+import json
+import os
 
 from flask import Flask, render_template, redirect, request, url_for
 from flask_login import (
@@ -9,7 +13,8 @@ from flask_login import (
     logout_user,
 )
 
-from helpers import is_access_token_valid, is_id_token_valid, config
+from google.auth import identity_pool
+from helpers import is_access_token_valid, is_id_token_valid, config, list_objects
 from user import User
 
 
@@ -90,6 +95,12 @@ def callback():
     if not is_id_token_valid(id_token, config["issuer"], config["client_id"], NONCE):
         return "ID token is invalid", 403
 
+    # Write Okta's OIDC id token to tmp files so that it can later be exchanged for a GCP federated token
+    random_id = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
+    okta_oidc_credential_file_name = "/tmp/" + random_id + "_okta_oidc_cred"
+    with open(okta_oidc_credential_file_name, 'w', encoding='utf-8') as f:
+        f.write(id_token)
+
     # Authorization flow successful, get userinfo and login user
     userinfo_response = requests.get(config["userinfo_uri"],
                                      headers={'Authorization': f'Bearer {access_token}'}).json()
@@ -105,10 +116,45 @@ def callback():
     if not User.get(unique_id):
         User.create(unique_id, user_name, user_email)
 
+    # Read environment variable for the audience
+    project_number = os.getenv('PROJECT_NUMBER')
+    workload_identity_pool_id = os.getenv('WORKLOAD_IDENTITY_POOL_ID')
+    workload_identity_pool_provider_id = os.getenv('WORKLOAD_IDENTITY_POOL_PROVIDER_ID')
+
+    # Create GCP federation credential config 
+    audience_str = "//iam.googleapis.com/projects/"+project_number+"/locations/global/workloadIdentityPools/"+workload_identity_pool_id+"/providers/"+workload_identity_pool_provider_id
+
+    gcp_credential_dict = {
+        "type": "external_account",
+        "audience": audience_str,
+        "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
+        "token_url": "https://sts.googleapis.com/v1/token",
+        "credential_source": {
+            "file": okta_oidc_credential_file_name
+        },
+    }
+
+    # Set Oauth scope for GCS as per https://developers.google.com/identity/protocols/oauth2/scopes#storage
+    scopes = ['https://www.googleapis.com/auth/devstorage.full_control']
+
+	# Create a credentials object - see https://google-auth.readthedocs.io/en/master/reference/google.auth.identity_pool.html
+    credentials = identity_pool.Credentials.from_info(gcp_credential_dict)
+    scoped_credentials = credentials.with_scopes(scopes)
+
+    project = os.getenv('PROJECT_ID')
+    allblobs = list_objects(project, scoped_credentials)
+
+    # Turn list into a dictionary for Jinja template
+    enum=enumerate(allblobs)
+    objectdict = dict((index, objname) for index, objname in enum)
+
+    # Delete the id token in tmp
+    os.remove(okta_oidc_credential_file_name)
+
     login_user(user)
 
-    return redirect(url_for("profile"))
-
+    # Show the list of accessible objects
+    return render_template("objlist.html", objectdict=objectdict, user=current_user)
 
 @app.route("/logout", methods=["GET", "POST"])
 @login_required

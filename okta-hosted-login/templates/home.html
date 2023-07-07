@@ -1,7 +1,7 @@
 {% extends "template.html" %}
 
 {% block content %}
-<h2>Okta Hosted Login + Flask Example</h2>
+<h2>Okta Hosted Login + Flask Example + GCP Workload Identity Federation</h2>
 
 {% if current_user.is_authenticated %}
 <div>
@@ -14,8 +14,12 @@
 <div>
     <p>Hello!</p>
     <p>If you're viewing this page then you have successfully configured and started this example server.</p>
-    <p>This example shows you how to to add the <a href="https://developer.okta.com/authentication-guide/implementing-authentication/auth-code.html">Authorization Code Flow</a> to your Flask application.</p>
-    <p>When you click the login button below, you will be redirected to the login page on your Okta org.  After you authenticate, you will be returned to this application.</p>
+    <p>This example shows you how to to add the <a href="https://developer.okta.com/authentication-guide/implementing-authentication/auth-code.html">Authorization Code Flow</a> to your Flask application.
+	This fork of the original code also includes code that uses <a href="https://cloud.google.com/iam/docs/workload-identity-federation">GCP Workload Identity Federation</a> to exchange the logged in user's OIDC id 
+    token against a federated GCP token. With this configuration GCP Workload Identity Federation maps the user group claim in the id token to a component of the 
+	GCP principal. This demo shows how a user's Okta group membership (admin, user, any) determines which GCS storage buckets is accessible to
+	the logged in user (and all other users in the same user group when they log in). 
+    When you click the login button below, you will be redirected to the login page on your Okta org. After you authenticate, you will be returned to this application.
 </div>
 
 <form method="get" action="login">

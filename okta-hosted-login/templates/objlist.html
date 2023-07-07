@@ -1,0 +1,13 @@
+{% extends "template.html" %}
+
+{% block content %}
+<div>
+	<h2>List of Objects</h2>
+	<p>Hello, <span>{{ user.email }}</span>. Below the objects that you are able to access based on your <a
+            href="https://help.okta.com/en-us/Content/Topics/users-groups-profiles/usgp-about-groups.htm"
+            target="_blank">Okta user group</a>.
+    </p>
+{% for objtuples in objectdict.items() %}
+{{objtuples[1]}}<br>
+{% endfor %}
+{% endblock content %}
