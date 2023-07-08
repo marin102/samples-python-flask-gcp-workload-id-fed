@@ -8,7 +8,7 @@ What is more interesting than the token exchange flow is that is facilitates the
 
  ```principalSet://iam.googleapis.com/projects/PROJECT_NUMBER/locations/global/workloadIdentityPools/POOL_ID/group/{admin, user, any}```
 
-If you add an Okta user and assign the correct user group in Okta, that user will automatically be able to access the set of GCS objects that correspond to his group. There is no need to add and configure a principal in GCP. Only the group assignment matters. While this example is based on the Okta user group, you can also use other Okta attributes including custom attributes. You can define up to 50 attributes and use them in IAM principalSet:// role bindings. This is described in detail [here](https://cloud.google.com/iam/docs/workload-identity-federation).
+If you add an Okta user and assign the correct user group in Okta, that user will automatically be able to access the set of GCS objects that correspond to his group. There is no need to add and configure a principal in GCP. Only the group assignment in Okta matters. While this example is based on the Okta user group, you can also use other Okta attributes including custom attributes. You can define up to 50 attributes and use them in IAM principalSet:// role bindings. This is described in detail [here](https://cloud.google.com/iam/docs/workload-identity-federation).
 
 > Tested with Python version 3.11.2 
 
