@@ -1,6 +1,6 @@
 # Example of Flask + Okta Hosted Login + GCP Workload Identity Federation
 
-This is a fork of the Flask Okta demo. It shows you how to use Flask to log in to your application with an Okta Hosted Login page.  The login is achieved through the [authorization code flow](https://developer.okta.com/authentication-guide/implementing-authentication/auth-code), where the user is redirected to the Okta-Hosted login page. After the user authenticates, they are redirected back to the application with an access code that is then exchanged for an access token and an an OIDC ID token. 
+This is a fork of the Flask Okta demo. It shows you how to use Flask to log into your application with an Okta Hosted Login page.  The login is achieved through the [authorization code flow](https://developer.okta.com/authentication-guide/implementing-authentication/auth-code), where the user is redirected to the Okta-Hosted login page. After the user authenticates, they are redirected back to the application with an access code that is then exchanged for an access token and an an OIDC ID token. 
 
 After token validation the application creates a GCP credentials configuration that defines how the OIDC ID token will be exchanged for a GCP federated token. This credential configuration can be passed as an argument to GCP API's, in this example GCS APIs. The GCS (and all other GCP) libraries transparently handle the token exchange from OIDC id token to GCP federated token as well as the authentication.
 
