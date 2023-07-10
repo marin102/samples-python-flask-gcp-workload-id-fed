@@ -10,7 +10,7 @@ What is more interesting than the token exchange flow is that is facilitates the
 
 If you add an Okta user and assign the correct user group in Okta, that user will automatically be able to access the set of GCS objects that correspond to his group. There is no need to add and configure a principal in GCP. Only the group assignment in Okta matters. While this example is based on the Okta user group, you can also use other Okta attributes including custom attributes. You can define up to 50 attributes and use them in IAM principalSet:// role bindings. This is described in detail [here](https://cloud.google.com/iam/docs/workload-identity-federation).
 
-> Tested with Python version 3.11.2 
+> This setup has been tested with Python version 3.11.2 
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ Before running this sample, you will need the following:
 * An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/.
 * An Okta Application configured for Web mode. You can create one from the Okta Developer Console, and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties.  They are designed to work with our sample applications.
 
-## Running This Example
+## Setting up Flask and Okta
 
 To run this application, you first need to clone this repo:
 
