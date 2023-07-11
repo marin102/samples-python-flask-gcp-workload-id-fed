@@ -16,16 +16,19 @@ If you add an Okta user and assign the correct user group in Okta, that user wil
 
 Before running this sample, you will need the following:
 
-* An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/.
-* An Okta Application configured for Web mode. You can create one from the Okta Developer Console, and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties.  They are designed to work with our sample applications.
+* An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/ (Customer Identity Cloud).  
+* An Okta Application configured for Web mode. You can create one from the Okta Developer Console, and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties.  Select 'Allow everyone in your organization to access' and 'Enable immediate access with Federation Broker Mode'. They are designed to work with our sample applications
+* Three custom Okta user groups named 'any', 'user' and 'admin'
+* At least two configured Okta users, each in one or more of these groups 
+* Google Cloud SDK - Libraries and Command Line Tools installed on your local system - ensure that you have the right [IAM roles for workload identity federation](https://cloud.google.com/iam/docs/understanding-roles#workload-identity-pools-roles). It is easiest if you have the project owner role for your project
 
-## Setting up Flask and Okta
+## Setting up Flask, Okta and GCP Workload Identity Federation
 
 To run this application, you first need to clone this repo:
 
 ```bash
-git clone git@github.com:okta/samples-python-flask.git
-cd samples-python-flask
+git clone https://github.com/marin102/samples-python-flask-gcp-workload-id-fed.git
+cd samples-python-flask-gcp-workload-id-fed/okta-hosted-login
 ```
 
 Then install dependencies:
@@ -34,7 +37,7 @@ Then install dependencies:
 pip install -r requirements.txt
 ```
 
-Open the `okta-hosted-login` directory and copy the [`client_secrets.json.dist`](client_secrets.json.dist) to `client_secrets.json`:
+Copy the [`client_secrets.json.dist`](client_secrets.json.dist) to `client_secrets.json`:
 
 ```bash
 cd okta-hosted-login
@@ -60,8 +63,32 @@ Fill in the information that you gathered in the `client_secrets.json` file.
   "userinfo_uri": "https://{yourOktaDomain}/oauth2/default/v1/userinfo"
 }
 ```
+Copy file `blank_setvars` to `setvars` and edit the environment variables
 
-Start the app server:
+```
+export PROJECT_ID="myproject"                                                                 	# Name of the GCP project
+PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="get(projectNumber)")        
+export PROJECT_NUMBER
+export BUCKET_PREFIX="okta-gcp-wif"								# Prefix for the three buckets that are created with suffixes admin, any, user
+export WORKLOAD_IDENTITY_POOL_ID="okta-gcp-wif"							# The name of the workload identity pool 
+export WORKLOAD_IDENTITY_POOL_PROVIDER_ID="okta-gcp-wif-provider"				# The name of the workload identity pool provider
+export ISSUER_URL="https://dev-12345678.okta.com/oauth2/default"				# The URL of the issuer - same as in issuer field in client_secrets.json 
+export AUDIENCE="12345678912345678900"								# The Okta Client ID for the application
+```
+
+Log into your GCP account
+
+```gcloud auth login```
+
+Source the file with the environment variables
+
+```. ./setvars```
+
+Launch ```setup.sh``` which creates three buckets for each group with between 1 and 10 small files with random content
+
+```./setup.sh```
+
+Start the app server
 
 ```
 python main.py
