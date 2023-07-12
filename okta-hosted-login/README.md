@@ -23,6 +23,8 @@ Before running this sample, you will need the following:
 * Group claims added to your default authorization server - Go to 'Security | API' and click on the default authorization server - Go to Claims and click on 'Add Claim'
 ![image](https://github.com/marin102/samples-python-flask-gcp-workload-id-fed/assets/136770873/56e396de-fb64-4ff5-b502-dfd88e3d4121)
 * Google Cloud SDK - Libraries and Command Line Tools installed on your local system - ensure that you have the right [IAM roles for workload identity federation](https://cloud.google.com/iam/docs/understanding-roles#workload-identity-pools-roles). It is easiest if you have the project owner role for your project
+* You may also want to require re-authentication at every sign-on attempt to switch users - Go to 'Authentication Policies | Default Policy' and edit the 'Catch-all Rule'
+![image](https://github.com/marin102/samples-python-flask-gcp-workload-id-fed/assets/136770873/cc232853-8dd9-4e0a-acc6-bcccd160ba53)
 
 ## Setting up Flask, Okta and GCP Workload Identity Federation
 
