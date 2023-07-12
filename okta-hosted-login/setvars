@@ -1,8 +1,0 @@
-export PROJECT_ID="uber-da-poc"
-PROJECT_NUMBER=$(gcloud projects describe "$PROJECT_ID" --format="get(projectNumber)")
-export PROJECT_NUMBER
-export BUCKET_PREFIX="okta-gcp-wif"
-export WORKLOAD_IDENTITY_POOL_ID="okta-gcp-wif"
-export WORKLOAD_IDENTITY_POOL_PROVIDER_ID="okta-gcp-wif-provider"
-export ISSUER_URL="https://dev-60453823.okta.com/oauth2/default"
-export AUDIENCE="0oaa3ayivepKKby0k5d7"
