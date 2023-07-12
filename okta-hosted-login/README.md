@@ -100,7 +100,7 @@ python main.py
 
 Now navigate to http://localhost:8080 in your browser.
 
-If you see a home page that prompts you to log in, then things are working! Clicking the **Log in** button will redirect you to the Okta hosted sign-in page.
+If you see a home page that prompts you to log in, then things are working! Clicking the **Log in** button will redirect you to a listing of objects that you are authorized to use from the corresponding bucket.
 
 You can log in with the same account that you created when signing up for your Developer Org. You can also use a known username and password from your Okta Directory.
 
