@@ -94,9 +94,7 @@ Launch ```setup.sh``` which creates three buckets for each group with between 1 
 
 Start the app server
 
-```
-python main.py
-```
+```python main.py```
 
 Now navigate to http://localhost:8080 in your browser.
 
