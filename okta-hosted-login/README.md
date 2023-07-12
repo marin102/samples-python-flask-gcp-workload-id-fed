@@ -31,7 +31,7 @@ git clone https://github.com/marin102/samples-python-flask-gcp-workload-id-fed.g
 cd samples-python-flask-gcp-workload-id-fed/okta-hosted-login
 ```
 
-Then install dependencies:
+Then install dependencies (You may want to use a virtual Python environment):
 
 ```bash
 pip install -r requirements.txt
