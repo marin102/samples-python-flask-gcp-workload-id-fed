@@ -19,7 +19,9 @@ Before running this sample, you will need the following:
 * An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/ (Access the Okta Developer Edition Service).  
 * An Okta Application configured for Web mode. You can create one from the Okta Developer Console, and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties. Check 'Client acting on behalf of itself | Client Credentials' and 'Client acting on behalf of a user | Authorization Code'. Select 'Allow everyone in your organization to access' and 'Enable immediate access with Federation Broker Mode'. They are designed to work with our sample applications
 * Three custom Okta user groups named 'any', 'user' and 'admin'
-* At least two configured Okta users, each in one or more of these groups 
+* At least two configured Okta users, each in one or more of these groups
+* Group claims added to your default authorization server - Go to 'Security | API' and click on the default authorization server - Go to Claims and click on 'Add Claim'
+![image](https://github.com/marin102/samples-python-flask-gcp-workload-id-fed/assets/136770873/56e396de-fb64-4ff5-b502-dfd88e3d4121)
 * Google Cloud SDK - Libraries and Command Line Tools installed on your local system - ensure that you have the right [IAM roles for workload identity federation](https://cloud.google.com/iam/docs/understanding-roles#workload-identity-pools-roles). It is easiest if you have the project owner role for your project
 
 ## Setting up Flask, Okta and GCP Workload Identity Federation
