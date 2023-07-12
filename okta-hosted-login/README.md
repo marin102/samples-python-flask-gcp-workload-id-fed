@@ -16,7 +16,7 @@ If you add an Okta user and assign the correct user group in Okta, that user wil
 
 Before running this sample, you will need the following:
 
-* An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/ (Customer Identity Cloud).  
+* An Okta Developer Account, you can sign up for one at https://developer.okta.com/signup/ (Access the Okta Developer Edition Service).  
 * An Okta Application configured for Web mode. You can create one from the Okta Developer Console, and you can find instructions [here][OIDC WEB Setup Instructions].  When following the wizard, use the default properties.  Select 'Allow everyone in your organization to access' and 'Enable immediate access with Federation Broker Mode'. They are designed to work with our sample applications
 * Three custom Okta user groups named 'any', 'user' and 'admin'
 * At least two configured Okta users, each in one or more of these groups 
