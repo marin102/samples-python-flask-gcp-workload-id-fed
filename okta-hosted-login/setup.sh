@@ -1,6 +1,12 @@
 #!/bin/bash -x
 #### Source setvars before calling this script !!!! ####
 
+if [ -z "${WORKLOAD_IDENTITY_POOL_PROVIDER_ID}" ]
+then
+        echo "Please edit and source setvar to set environment variables and retry!\n"
+        exit
+fi
+
 # Create the workload identity pool
 gcloud iam workload-identity-pools create "$WORKLOAD_IDENTITY_POOL_ID" --location="global" \
 --description "Workload pool for Okta demo" --display-name "$WORKLOAD_IDENTITY_POOL_ID"

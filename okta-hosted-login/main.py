@@ -28,6 +28,14 @@ login_manager.init_app(app)
 APP_STATE = 'ApplicationState'
 NONCE = 'SampleNonce'
 
+envvar = os.environ.get("WORKLOAD_IDENTITY_POOL_PROVIDER_ID")
+if envvar is not None:
+        pass
+else:
+        print("Please edit and source setvar to set environment variables and retry\n")
+        exit()
+
+
 
 @login_manager.user_loader
 def load_user(user_id):
