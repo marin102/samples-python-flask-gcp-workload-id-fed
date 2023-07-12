@@ -10,8 +10,6 @@ What is more interesting than the token exchange flow is that is facilitates the
 
 If you add an Okta user and assign the correct user group in Okta, that user will automatically be able to access the set of GCS objects that correspond to his group. There is no need to add and configure a principal in GCP. Only the group assignment in Okta matters. While this example is based on the Okta user group, you can also use other Okta attributes including custom attributes. You can define up to 50 attributes and use them in IAM principalSet:// role bindings. This is described in detail [here](https://cloud.google.com/iam/docs/workload-identity-federation).
 
-TO keep things simple the code currently only supports a 1:1 mapping of user to user group. If a user is in multiple groups only the objects of one of his groups will be displayed.
-
 > This setup has been tested with Python version 3.11.2 
 
 ## Prerequisites
